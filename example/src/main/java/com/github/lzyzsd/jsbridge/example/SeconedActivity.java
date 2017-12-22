@@ -96,7 +96,7 @@ public class SeconedActivity extends AppCompatActivity implements View.OnClickLi
             }
 
         }, "test_name");
-        
+
 
     }
 
