@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page Title</title>
+    </head>
+
+    <body>
+
+        <button type="button" onclick="js2java1()">Js->Java 无参数无返回</button>
+        <button type="button" onclick="js2java2('Js->Java 有参数 无返回')">Js->Java 有参数无返回</button>
+        <button type="button" onclick="js2java3()">Js->Java 无参数有返回</button>
+        <button type="button" onclick="callAndroid()">通过shouldOverrideUrlLoading</button>
+        <button type="button" onclick="prompt('文本','默认值')">PROMPT</button>
+
+    </body>
+
+    <script>
+
+        function java2Js1(){
+            alert("Java->Js 无参 无返回");
+        }
+
+        function java2Js2(message){
+            alert("Java->Js 有参 无返回 msg = "+message);
+        }
+
+        function java2Js3(){
+            return "Java->Js 无参 有返回";
+        }
+
+        function js2java1(){
+            test_name.hello()
+        }
+
+        function js2java2(message){
+            test_name.hello2(message)
+        }
+
+        function js2java3(){
+
+        }
+
+        function callAndroid(){
+            /*约定的url协议为：js://webview?arg1=111&arg2=222*/
+            document.location = "js://webview?arg1=111&arg2=222";
+         }
+    </script>
+</html>

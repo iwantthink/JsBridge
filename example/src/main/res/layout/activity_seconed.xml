@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.github.lzyzsd.jsbridge.example.SeconedActivity">
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btn_test1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="测试1"/>
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btn_test2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="测试2"/>
+
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btn_test3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="测试3"/>
+
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btn_test4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="测试4"/>
+
+    </LinearLayout>
+
+
+    <WebView
+        android:id="@+id/wv_test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/root"></WebView>
+
+</RelativeLayout>
