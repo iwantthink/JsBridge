@@ -8,10 +8,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
+import com.github.lzyzsd.jsbridge.DefaultHandler;
+import com.google.gson.Gson;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -43,58 +48,59 @@ public class MainActivity extends Activity implements OnClickListener {
         startActivity(new Intent(MainActivity.this, SeconedActivity.class));
         finish();
 
-//        webView = (BridgeWebView) findViewById(R.id.webView);
-//
-//        button = (Button) findViewById(R.id.button);
-//
-//        button.setOnClickListener(this);
-//
-//        webView.setDefaultHandler(new DefaultHandler());
-//
-//        webView.setWebChromeClient(new WebChromeClient() {
-//
-//            @SuppressWarnings("unused")
-//            public void openFileChooser(ValueCallback<Uri> uploadMsg, String AcceptType, String capture) {
-//                this.openFileChooser(uploadMsg);
-//            }
-//
-//            @SuppressWarnings("unused")
-//            public void openFileChooser(ValueCallback<Uri> uploadMsg, String AcceptType) {
-//                this.openFileChooser(uploadMsg);
-//            }
-//
-//            public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-//                mUploadMessage = uploadMsg;
-//                pickFile();
-//            }
-//        });
-//
+        webView = (BridgeWebView) findViewById(R.id.webView);
+
+        button = (Button) findViewById(R.id.button);
+
+        button.setOnClickListener(this);
+
+        webView.setDefaultHandler(new DefaultHandler());
+
+        webView.setWebChromeClient(new WebChromeClient() {
+
+            @SuppressWarnings("unused")
+            public void openFileChooser(ValueCallback<Uri> uploadMsg, String AcceptType, String capture) {
+                this.openFileChooser(uploadMsg);
+            }
+
+            @SuppressWarnings("unused")
+            public void openFileChooser(ValueCallback<Uri> uploadMsg, String AcceptType) {
+                this.openFileChooser(uploadMsg);
+            }
+
+            public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+                mUploadMessage = uploadMsg;
+                pickFile();
+            }
+        });
+
 //        webView.loadUrl("file:///android_asset/demo.html");
-//
-//        webView.registerHandler("submitFromWeb", new BridgeHandler() {
-//
-//            @Override
-//            public void handler(String data, CallBackFunction function) {
-//                Log.i(TAG, "handler = submitFromWeb, data from web = " + data);
-//                function.onCallBack("submitFromWeb exe, response data 中文 from Java");
-//            }
-//
-//        });
-//
-//        User user = new User();
-//        Location location = new Location();
-//        location.address = "SDU";
-//        user.location = location;
-//        user.name = "大头鬼";
-//
-//        webView.callHandler("functionInJs", new Gson().toJson(user), new CallBackFunction() {
-//            @Override
-//            public void onCallBack(String data) {
-//
-//            }
-//        });
-//
-//        webView.send("hello");
+        webView.loadUrl("https://sdk.starbolt.io/dist/android.html");
+        //注册一个名为`submitFromWeb`的Handler 用来供JS调用
+        webView.registerHandler("submitFromWeb", new BridgeHandler() {
+
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                Log.i(TAG, "handler = submitFromWeb, data from web = " + data);
+                function.onCallBack("submitFromWeb exe, response data 中文 from Java");
+            }
+
+        });
+
+        User user = new User();
+        Location location = new Location();
+        location.address = "SDU";
+        user.location = location;
+        user.name = "大头鬼";
+        //调用JS代码
+        webView.callHandler("functionInJs", new Gson().toJson(user), new CallBackFunction() {
+            @Override
+            public void onCallBack(String data) {
+
+            }
+        });
+        //使用默认的Handler ，Js 调用Java 方法时 会使用默认的Handler
+        webView.send("hello");
 
     }
 
@@ -121,12 +127,14 @@ public class MainActivity extends Activity implements OnClickListener {
         if (button.equals(v)) {
             webView.callHandler("functionInJs", "data from Java", new CallBackFunction() {
 
-                @Override
-                public void onCallBack(String data) {
-                    Log.i(TAG, "reponse data from js " + data);
-                }
+                        @Override
+                        public void onCallBack(String data) {
+                            Log.i(TAG, "reponse data from js " + data);
+                            Toast.makeText(MainActivity.this, "response data from js = " + data, Toast.LENGTH_SHORT).show();
+                        }
 
-            });
+                    }
+            );
         }
 
     }

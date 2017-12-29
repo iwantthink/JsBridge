@@ -82,6 +82,7 @@
             var message = JSON.parse(messageJSON);
             var responseCallback;
             //java call finished, now need to call js callback function
+            //判断是否存在 Js调用Native的回调方法ID
             if (message.responseId) {
                 responseCallback = responseCallbacks[message.responseId];
                 if (!responseCallback) {
@@ -91,9 +92,11 @@
                 delete responseCallbacks[message.responseId];
             } else {
                 //直接发送
+                //是否存在Native调用JS的回调方法ID
                 if (message.callbackId) {
                     var callbackResponseId = message.callbackId;
                     responseCallback = function(responseData) {
+                        // 对象
                         _doSend({
                             responseId: callbackResponseId,
                             responseData: responseData
@@ -114,7 +117,8 @@
                     }
                 }
             }
-        });
+        }
+        );
     }
 
     //提供给native调用,receiveMessageQueue 在会在页面加载完后赋值为null,所以
